@@ -1,11 +1,12 @@
-import os
 import exifread
 import re
 import json
 import requests
 from coord_convert.transform import wgs2gcj
+import os
 
-from scr import html
+
+# from scr import html
 
 def latitude_and_longitude_convert_to_decimal_system(*arg):
     """
@@ -15,6 +16,7 @@ def latitude_and_longitude_convert_to_decimal_system(*arg):
     return float(arg[0]) + ((float(arg[2])/ 60 + (float(arg[1].split('/')[0]) / float(arg[1].split('/')[-1]) )) / 60)
 
 def find_GPS_image(pic_path):
+    print("find_GPS_image：%s",pic_path )
     GPS = {}
     date = ''
     with open(pic_path, 'rb') as f:
@@ -57,6 +59,7 @@ def find_address_from_GPS(GPS):
     secret_key = 'W4OlhqOeAApYO7ND06mCrGXU6jYzbGYf'
     secret_key = 'FHTnGWf8sHpGAkvGvH0LNz4DaHisoMBt'
     secret_key = '20ad830c09ac8241c085063b1f6d67ec'#GAODE
+    print("find_address_from_GPS")
     if not GPS['GPS_information']:
         return '该照片无GPS信息'
     lat, lng = GPS['GPS_information']['GPSLatitude'], GPS['GPS_information']['GPSLongitude']
@@ -144,7 +147,7 @@ def getPEF(path):
 def getPic(path,format):
     print("Get pic fileName")
     # path = os.getcwd()  # 文件夹目录
-    print(path)
+    # print(path)
     files = os.listdir(path)  # 得到文件夹下的所有文件名称
     # print(files)
     # print(type(files))
@@ -152,7 +155,7 @@ def getPic(path,format):
 
     for name in files:
         if os.path.isdir(path +'/'+name):
-            # print(path +name)
+            print(path +name)
             PEFList.extend(getPic(path +'/'+name+'/',format)) #回调函数，对所有子文件夹进行搜索
         elif os.path.isfile(path +'/'+name):
             # print(type(format))
@@ -197,7 +200,10 @@ def getGPSInfo(path,PEFList):
     for pef in PEFList:
         PEFInfo = []
         # print(path+pef)
-        GPS_info = find_GPS_image(pic_path=path+pef)
+        if(os.path.exists(path+pef)):
+            GPS_info = find_GPS_image(pic_path=path+pef)
+        else:
+            print("can not found")
         # print(GPS_info)
         if(GPS_info['GPS_information']):
             # print(GPS_info['GPS_information'])

@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>卫星图</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
+    <style>
+        html,body,#container{
+            height:100%;
+            width:100%;
+        }
+    </style>
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+  <title>卫星图</title>
+    <style>
+        html,
+        body,
+        #container {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+        <script>
+        window.onload = function () {
+            new QWebChannel(qt.webChannelTransport, function (channel) {
+                window.pyjs = channel.objects.pyjs;
+                pyjs.myHello(alert);
+            });
+        }
+    </script>
+</head>
+<body>
+<div id="container"></div>
+<div class="info" id="text">
+    请点击覆盖物试试
+</div>
+
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值"></script>
+<script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+<script language="javascript" src="./qwebchannel.js"></script>
+<script language="javascript" src = "./control.js"></script>
+<script type="text/javascript">
+    //初始化地图对象，加载地图
+
+    //var my_object = channel.objects.MyObject;
+
+var markerArr = [{title: "相片：未标题4.jpg", point: "114.19359982039941,22.567659490986753"},{title: "相片：EZ007144.jpg", point: "113.91116998630939,22.499433751416582"},{title: "相片：EZ007033.jpg", point: "113.92717630645508,22.49581927696205"},{title: "相片：EZ001492.jpg", point: "100.06266304777473,38.973300552190054"},{title: "相片：EZ006774-2.jpg", point: "114.34067628912412,22.591467539855174"},{title: "相片：EZ004416.jpg", point: "114.78646801352194,23.193926755175283"},{title: "相片：EZ0064591.jpg", point: "113.94930470452066,22.486056774576173"},{title: "相片：EZ007674.jpg", point: "114.19388241316355,22.567548974137043"},{title: "相片：未标题4 2.jpg", point: "114.1938774279099,22.567577319324855"},{title: "相片：EZ0052041.jpg", point: "114.22787959266635,22.336536350353953"},{title: "相片：EZ005224-編輯.jpg", point: "114.22787626463005,22.336531354577968"},{title: "相片：EZ006876.jpg", point: "114.32097707165421,22.596040905943855"}];
+    var lon=114.18866833333334,lat=22.57046; 
+    var map = new AMap.Map('container', {
+        center: [lon, lat],                   //map center
+        layers: [new AMap.TileLayer()],  //layer set
+        zoom: 13,
+      resizeEnable: true
+    });
+  //   var marker = new AMap.Marker({
+  //       map: map,
+  //
+  //       position: [116.405467, 39.907761]
+  //
+  //   });
+  // marker.content='222'
+  //   //map.setFitView();
+  //
+  //
+  //
+  //    marker.on('click', showInfoM);
+  //
+  //
+  // var marker = new AMap.Marker({
+  //       map: map,
+  //
+  //       position: [116.405467, 39.807761]
+  //
+  //   });
+  // marker.content='??sd?'
+  // marker.on('click', showInfoM);
+    //map.setFitView();
+
+    // var marker = new AMap.Marker({
+    // position: new AMap.LngLat(113.94930470452066, 22.486056774576173),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+    // title: '深圳湾'
+    // });
+    // map.add(marker);
+    for (var i = 0; i < markerArr.length; i++) {
+    //     var marker = new AMap.Marker({
+    // position: new AMap.LngLat(markerArr[i].point.split(",")[0], markerArr[i].point.split(",")[1]),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+    // title: markerArr[i].title.split(":")[0]
+    // });
+    // map.add(marker);
+          var marker = new AMap.Marker({
+        map: map,
+
+        position: [markerArr[i].point.split(",")[0], markerArr[i].point.split(",")[1]] , //marker locatin
+        title:    markerArr[i].title.split(":")[0]
+
+    });
+      marker.content= markerArr[i].title.split(":")[0]
+      marker.on('click', showInfoM);
+            }
+
+  //   var marker = new AMap.Marker({
+  //       map: map,
+  //
+  //       position: [116.405467, 39.807761]
+  //
+  //   });
+  // marker.content='??sd?'
+  // marker.on('click', showInfoM);
+
+
+
+
+    function showInfoM(e){
+
+        var text = '您在 [ '+e.lnglat.getLng()+','+e.lnglat.getLat()+' ] 的位置点击了marker！'
+    var text = e.target.content
+        //control.sendData(text);
+        //onShowMsgBox();
+       // control.sendData(text);
+       qt5test(text);
+        document.querySelector("#text").innerText = text;
+        //my_object.consolePrint(text);
+    }
+
+
+
+
+    // 给按钮绑定事件
+
+</script>
+<script>
+    function qt5test(msg) {
+       pyjs.myTest(msg);
+    
+    }
+    function uptext(msg) {
+        document.getElementById('test').innerHTML=msg;
+    }
+</script>
+</body>
+</html>
