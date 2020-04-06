@@ -40,13 +40,14 @@ class CallHandler(QObject):
     @pyqtSlot(str, result=str)
     def myTest(self,test):
         OS=1
-        print(test)
-        picPath='/Users/aria/Documents/PENTAX'+'/'+test.replace("相片：","")
-        print(picPath)
+        # print(test)
+        # picPath='/Users/aria/Documents/PENTAX'+'/'+test.replace("相片：","")
+        # print(picPath)
         # im=Image.open(picPath)
         # im.show()
+        print(test.split('/')[-1])
         if(OS==1):
-            subprocess.call(["open", picPath])
+            subprocess.call(["open", test])
         elif(OS==2):
             # self.sendData2Web('unsupported Now')
             print('This OS is unsupported Now')
@@ -60,6 +61,10 @@ folderpath=''
 phoFormat=''
 global mapLayer
 
+folder = os.path.exists("Thumbnail")
+if(not folder):
+    os.makedirs("Thumbnail")
+    print("创建Thumbnail成功")
 baseSet=20
 opAPP = QApplication(sys.argv)
 opwindows=QWidget()
@@ -126,6 +131,7 @@ def showMap():   #start map ui
     # print(pef)
     gps = sss.getGPSInfo(folderpath,pef)
     print(bg.checkedId())
+    sss.creatThumb(gps)
     # print(gps)
     if(gps):
         arr = sss.buildGPSArry(gps)
@@ -147,7 +153,8 @@ def showMap():   #start map ui
         f.write(h)
         f.close()
 
-        url_string = "file:///Users//aria//PycharmProjects//PhotoMap//scr//maps.html"
+        curPath=os.getcwd()
+        url_string = "file://"+curPath+"//maps.html"
         web.load(QUrl(url_string))
         web.show()
 

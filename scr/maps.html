@@ -48,7 +48,7 @@
 
     //var my_object = channel.objects.MyObject;
 
-var markerArr = [{title: "相片：未标题4.jpg", point: "114.19359982039941,22.567659490986753"},{title: "相片：EZ007144.jpg", point: "113.91116998630939,22.499433751416582"},{title: "相片：EZ007033.jpg", point: "113.92717630645508,22.49581927696205"},{title: "相片：EZ001492.jpg", point: "100.06266304777473,38.973300552190054"},{title: "相片：EZ006774-2.jpg", point: "114.34067628912412,22.591467539855174"},{title: "相片：EZ004416.jpg", point: "114.78646801352194,23.193926755175283"},{title: "相片：EZ0064591.jpg", point: "113.94930470452066,22.486056774576173"},{title: "相片：EZ007674.jpg", point: "114.19388241316355,22.567548974137043"},{title: "相片：未标题4 2.jpg", point: "114.1938774279099,22.567577319324855"},{title: "相片：EZ0052041.jpg", point: "114.22787959266635,22.336536350353953"},{title: "相片：EZ005224-編輯.jpg", point: "114.22787626463005,22.336531354577968"},{title: "相片：EZ006876.jpg", point: "114.32097707165421,22.596040905943855"}];
+var markerArr = [{title: "/Users/aria/Documents/PENTAX/未标题4.jpg", point: "114.19359982039941,22.567659490986753"},{title: "/Users/aria/Documents/PENTAX/EZ007144.jpg", point: "113.91116998630939,22.499433751416582"},{title: "/Users/aria/Documents/PENTAX/EZ007033.jpg", point: "113.92717630645508,22.49581927696205"},{title: "/Users/aria/Documents/PENTAX/EZ001492.jpg", point: "100.06266304777473,38.973300552190054"},{title: "/Users/aria/Documents/PENTAX/EZ006774-2.jpg", point: "114.34067628912412,22.591467539855174"},{title: "/Users/aria/Documents/PENTAX/EZ004416.jpg", point: "114.78646801352194,23.193926755175283"},{title: "/Users/aria/Documents/PENTAX/EZ0064591.jpg", point: "113.94930470452066,22.486056774576173"},{title: "/Users/aria/Documents/PENTAX/EZ007674.jpg", point: "114.19388241316355,22.567548974137043"},{title: "/Users/aria/Documents/PENTAX/未标题4 2.jpg", point: "114.1938774279099,22.567577319324855"},{title: "/Users/aria/Documents/PENTAX/EZ0052041.jpg", point: "114.22787959266635,22.336536350353953"},{title: "/Users/aria/Documents/PENTAX/EZ005224-編輯.jpg", point: "114.22787626463005,22.336531354577968"},{title: "/Users/aria/Documents/PENTAX/EZ006876.jpg", point: "114.32097707165421,22.596040905943855"}];
     var lon=114.18866833333334,lat=22.57046; 
     var map = new AMap.Map('container', {
         center: [lon, lat],                   //map center
@@ -91,14 +91,23 @@ var markerArr = [{title: "相片：未标题4.jpg", point: "114.19359982039941,2
     // title: markerArr[i].title.split(":")[0]
     // });
     // map.add(marker);
+        
+        var filePath=markerArr[i].title.split(":")[0]
+        var fileName=filePath.split("/")[filePath.split('/').length - 1]
+        var tumbName="Thumbnail/"+fileName.replace(".jpg","_thumb.jpg")
           var marker = new AMap.Marker({
         map: map,
-
+        icon: new AMap.Icon({
+           image: "Thumbnail/"+fileName.replace(".jpg","_thumb.jpg"), //can not usr var ,have no ideasl how to show tumb
+           //image: "4.jpg",
+           size: new AMap.Size(128, 128),  //图标大小
+           imageSize: new AMap.Size(64,64)
+        }),
         position: [markerArr[i].point.split(",")[0], markerArr[i].point.split(",")[1]] , //marker locatin
-        title:    markerArr[i].title.split(":")[0]
+        title:    tumbName
 
     });
-      marker.content= markerArr[i].title.split(":")[0]
+      marker.content= filePath
       marker.on('click', showInfoM);
             }
 

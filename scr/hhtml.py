@@ -98,14 +98,23 @@ var markerArr = [];
     // title: markerArr[i].title.split(":")[0]
     // });
     // map.add(marker);
+        
+        var filePath=markerArr[i].title.split(":")[0]
+        var fileName=filePath.split("/")[filePath.split('/').length - 1]
+        var tumbName="Thumbnail/"+fileName.replace(".jpg","_thumb.jpg")
           var marker = new AMap.Marker({
         map: map,
-
+        icon: new AMap.Icon({
+           image: "Thumbnail/"+fileName.replace(".jpg","_thumb.jpg"), //can not usr var ,have no ideasl how to show tumb
+           //image: "4.jpg",
+           size: new AMap.Size(128, 128),  //图标大小
+           imageSize: new AMap.Size(64,64)
+        }),
         position: [markerArr[i].point.split(",")[0], markerArr[i].point.split(",")[1]] , //marker locatin
-        title:    markerArr[i].title.split(":")[0]
+        title:    tumbName
 
     });
-      marker.content= markerArr[i].title.split(":")[0]
+      marker.content= filePath
       marker.on('click', showInfoM);
             }
 

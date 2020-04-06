@@ -2,6 +2,7 @@ import exifread
 import re
 import json
 import requests
+from PIL import Image
 from coord_convert.transform import wgs2gcj
 import os
 
@@ -210,7 +211,7 @@ def getGPSInfo(path,PEFList):
             PEFInfo.append(GPS_info['GPS_information']['GPSLatitude'])
             PEFInfo.append(GPS_info['GPS_information']['GPSLongitude'])
             PEFInfo.append(GPS_info['GPS_information']['GPSAltitude'])
-            PEFInfo.append(pef)
+            PEFInfo.append(path+pef)
             GPSInfo.append(PEFInfo)
         else:
             pass
@@ -237,12 +238,21 @@ def buildGPSArry(gpsInfo):
 
 
         # info = '{title: "名称：{0}", point: "{1},{2}"},'.format('nill', gps[1], gps[2])
-        info='{title: "相片：'+gps[3]+'", point: "'+str(lon)+','+str(lat)+'"},'
+        info='{title: "'+gps[3]+'", point: "'+str(lon)+','+str(lat)+'"},'
         main=main+info
     main=main[:-1]+'];'
     return main
     # print(main)
 
+def creatThumb(gpsInfo):
+    for jp in gpsInfo:
+        if(os._exists(jp[3])):
+            file=jp[3].split('/')[-1]
+            # print(jp)
+            im = Image.open(jp[3])
+            out = im.resize((500, 500), Image.ANTIALIAS)
+            out.save('Thumbnail/'+file.replace('.jpg','_thumb.jpg'))
+            print(file)
 # st='123'
 # print(st.join("hahah"))
 # pef=getPEF()
