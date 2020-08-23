@@ -154,7 +154,7 @@ var markerArr = [];
     
     }
     function uptext(msg) {
-        document.getElementById('test').innerHTML=msg;
+        //document.getElementById('test').innerHTML=msg;
     }
 </script>
 </body>
