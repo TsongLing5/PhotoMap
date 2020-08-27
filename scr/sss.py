@@ -1,3 +1,4 @@
+#Filename:sss.py
 import exifread
 import re
 import json
@@ -5,6 +6,7 @@ import requests
 from PIL import Image
 from coord_convert.transform import wgs2gcj
 import os
+
 
 
 # from scr import html
@@ -245,8 +247,11 @@ def buildGPSArry(gpsInfo):
     # print(main)
 
 def creatThumb(gpsInfo):
+    print("create thumb")
     for jp in gpsInfo:
         if(os._exists(jp[3])):
+            pass
+        else:
             file=jp[3].split('/')[-1]
             # print(jp)
             im = Image.open(jp[3])
