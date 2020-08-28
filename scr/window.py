@@ -22,6 +22,7 @@ import sip
 
 
 
+
 '''code is not good and not '''
 
 class CallHandler(QObject):
@@ -131,6 +132,8 @@ def showMap():   #start map ui
     # print(pef)
     gps = sss.getGPSInfo(folderpath,pef)
     print(bg.checkedId())
+    #生成缩略图
+    print("生成缩略图")
     sss.creatThumb(gps)
     # print(gps)
     if(gps):
@@ -154,15 +157,20 @@ def showMap():   #start map ui
         f.close()
 
         curPath=os.getcwd()
-        url_string = "file://"+curPath+"//maps.html"
+        if(sys.platform=="darwin"):
+            url_string = "file:///"+curPath+"//maps.html"
+        elif(sys.platform=="win32"):
+            url_string = "file:///"+curPath.replace("\\","/")+"//maps.html"
         web.load(QUrl(url_string))
         web.show()
 
-        print(h)
+        #print(h)
         mapWindows.show()
         mapWindows.setWindowTitle("PhotoMap")
         mapWindows.showMaximized()
-        web.setGeometry(0,0,mapWindows.geometry().width() ,mapWindows.geometry().height() )
+        web.setGeometry(0,0,mapWindows.width() ,mapWindows.height() ) #set size of web
+        if (sys.platform == "win32"):
+            web.setGeometry(0, 0, 1980, 1080)  # set size of web
         mapWindows.setFixedSize(mapWindows.geometry().width(), mapWindows.geometry().height())  # fix windows max
     else:
         print("找不到GPS信息")
