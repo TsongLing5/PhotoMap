@@ -248,15 +248,19 @@ def buildGPSArry(gpsInfo):
 
 def creatThumb(gpsInfo):
     print("create thumb")
+    ff=os.getcwd()
     for jp in gpsInfo:
-        if(os._exists(jp[3])):
-            pass
+        file = jp[3].split('/')[-1]
+        filePath=ff+'/Thumbnail/'+file.replace('.jpg','_thumb.jpg')
+        # print("file: " + filePath)
+        if(os.path.exists(filePath)):
+            print("file exist in: "+filePath)
         else:
-            file=jp[3].split('/')[-1]
+
             # print(jp)
             im = Image.open(jp[3])
             out = im.resize((500, 500), Image.ANTIALIAS)
-            out.save('Thumbnail/'+file.replace('.jpg','_thumb.jpg'))
+            out.save(filePath)
             print(file)
 # st='123'
 # print(st.join("hahah"))
