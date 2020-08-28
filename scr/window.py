@@ -40,17 +40,20 @@ class CallHandler(QObject):
 
     @pyqtSlot(str, result=str)
     def myTest(self,test):
-        OS=1
+        OS=sys.platform
         # print(test)
         # picPath='/Users/aria/Documents/PENTAX'+'/'+test.replace("相片：","")
         # print(picPath)
         # im=Image.open(picPath)
         # im.show()
         print(test.split('/')[-1])
-        if(OS==1):
+        if(OS=="darwin"):
             subprocess.call(["open", test])
-        elif(OS==2):
+        elif(OS=="win32"):
             # self.sendData2Web('unsupported Now')
+            img=Image.open(test[:1]+":"+test[2:])
+            img.show()
+            print("open "+test)
             print('This OS is unsupported Now')
         # os.system(picPath.replace('/','//'))
         return test
