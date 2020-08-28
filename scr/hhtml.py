@@ -99,7 +99,7 @@ var markerArr = [];
     // });
     // map.add(marker);
         
-        var filePath=markerArr[i].title.split(":")[0]
+        var filePath=markerArr[i].title.split(":","/")  // WIn path dif with mac,more panfu and ":",this will cause following op can get thumb name
         var fileName=filePath.split("/")[filePath.split('/').length - 1]
         var tumbName="Thumbnail/"+fileName.replace(".jpg","_thumb.jpg")
           var marker = new AMap.Marker({
