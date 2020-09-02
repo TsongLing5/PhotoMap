@@ -19,6 +19,7 @@ import os
 from PIL import Image
 import subprocess
 import sip
+import ctypes
 
 
 
@@ -51,8 +52,7 @@ class CallHandler(QObject):
             subprocess.call(["open", test])
         elif(OS=="win32"):
             # self.sendData2Web('unsupported Now')
-            img=Image.open(test[:1]+":"+test[2:])
-            img.show()
+            Image.open(test)
             print("open "+test)
             print('This OS is unsupported Now')
         # os.system(picPath.replace('/','//'))
@@ -153,17 +153,21 @@ def showMap():   #start map ui
         else:
             pass
 
+        curPath = os.getcwd()
+        if (sys.platform == "darwin"):  #mac OS
+            url_string = "file:///" + curPath + "//maps.html"
+
+        elif (sys.platform == "win32"):  #Windows
+            url_string = "file:///" + curPath.replace("\\", "/") + "//maps.html"
+
+
         # web.setHtml(h)
         ##write html
         f = open('maps.html', 'w')
         f.write(h)
         f.close()
 
-        curPath=os.getcwd()
-        if(sys.platform=="darwin"):
-            url_string = "file:///"+curPath+"//maps.html"
-        elif(sys.platform=="win32"):
-            url_string = "file:///"+curPath.replace("\\","/")+"//maps.html"
+
         web.load(QUrl(url_string))
         web.show()
 
@@ -171,9 +175,17 @@ def showMap():   #start map ui
         mapWindows.show()
         mapWindows.setWindowTitle("PhotoMap")
         mapWindows.showMaximized()
-        web.setGeometry(0,0,mapWindows.width() ,mapWindows.height() ) #set size of web
+        screenX=1920
+        screenY=1080
         if (sys.platform == "win32"):
-            web.setGeometry(0, 0, 1980, 1080)  # set size of web
+            user=ctypes.windll.user32
+            screenX = user.getSystemMetrics(0)
+            screenY = user.getSystemMetrics(1)
+        elif (sys.platform == "darwin"):
+            screenX=mapWindows.width()
+            screenY=mapWindows.height()
+        web.setGeometry(0, 0, screenX, screenY)  # set size of web
+        web.setGeometry(0, 0, screenX, screenY)  # set size of web
         mapWindows.setFixedSize(mapWindows.geometry().width(), mapWindows.geometry().height())  # fix windows max
     else:
         print("找不到GPS信息")
