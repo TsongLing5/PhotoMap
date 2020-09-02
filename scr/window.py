@@ -75,7 +75,10 @@ opwindows=QWidget()
 
 pathLab=QLabel(opwindows)
 path=QLineEdit(opwindows)
-path.setText('/Users/aria/Documents/PENTAX')
+if (sys.platform == "darwin"):
+    path.setText('/Users/aria/Documents/PENTAX')
+elif (sys.platform == "win32"):
+    path.setText('W:/PENTAX2020')
 choiceButton=QPushButton(opwindows)
 
 path.setEnabled(True)
@@ -179,8 +182,8 @@ def showMap():   #start map ui
         screenY=1080
         if (sys.platform == "win32"):
             user=ctypes.windll.user32
-            screenX = user.getSystemMetrics(0)
-            screenY = user.getSystemMetrics(1)
+            screenX = user.GetSystemMetrics(0)
+            screenY = user.GetSystemMetrics(1)
         elif (sys.platform == "darwin"):
             screenX=mapWindows.width()
             screenY=mapWindows.height()
