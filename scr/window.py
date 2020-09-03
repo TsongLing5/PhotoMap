@@ -52,9 +52,10 @@ class CallHandler(QObject):
             subprocess.call(["open", test])
         elif(OS=="win32"):
             # self.sendData2Web('unsupported Now')
-            Image.open(test)
+            
             print("open "+test)
-            print('This OS is unsupported Now')
+            img=Image.open(test[:1]+":"+test[2:])
+            img.show()
         # os.system(picPath.replace('/','//'))
         return test
 
@@ -189,7 +190,7 @@ def showMap():   #start map ui
             screenY=mapWindows.height()
         web.setGeometry(0, 0, screenX, screenY)  # set size of web
         web.setGeometry(0, 0, screenX, screenY)  # set size of web
-        mapWindows.setFixedSize(mapWindows.geometry().width(), mapWindows.geometry().height())  # fix windows max
+        mapWindows.setFixedSize(screenX, screenY)  # fix windows max
     else:
         print("找不到GPS信息")
     # sys.exit(mapAPP.exec_())
