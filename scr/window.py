@@ -52,10 +52,11 @@ class CallHandler(QObject):
             subprocess.call(["open", test])
         elif(OS=="win32"):
             # self.sendData2Web('unsupported Now')
-            
-            print("open "+test)
-            img=Image.open(test[:1]+":"+test[2:])
-            img.show()
+            path=test[:1]+":"+test[2:]
+            os.system("start "+path)  #faster than image show
+            print("open "+path)
+            # img=Image.open(test[:1]+":"+test[2:])
+            # img.show()
         # os.system(picPath.replace('/','//'))
         return test
 
