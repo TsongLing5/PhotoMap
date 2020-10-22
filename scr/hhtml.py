@@ -7,7 +7,7 @@ sys.path.append(rootPath)
 
 mapsFrame = '''<!doctype html>
 <html>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -100,7 +100,7 @@ var markerArr = [];
     // });
     // map.add(marker);
         
-        var filePath=markerArr[i].title.split(":","/")  // WIn path dif with mac,more panfu and ":",this will cause following op can get thumb name
+        var filePath=markerArr[i].title.replace(":","/")  // WIn path dif with mac,more panfu and ":",this will cause following op can get thumb name
         var fileName=filePath.split("/")[filePath.split('/').length - 1]
         var tumbName="Thumbnail/"+fileName.replace(".jpg","_thumb.jpg")
           var marker = new AMap.Marker({
