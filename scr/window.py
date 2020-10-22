@@ -43,7 +43,7 @@ class CallHandler(QObject):
     def myTest(self,test):
         OS=sys.platform
         # print(test)
-        # picPath='/Users/aria/Documents/PENTAX'+'/'+test.replace("相片：","")
+        # picPath='/Users/user/Documents/PENTAX'+'/'+test.replace("相片：","")
         # print(picPath)
         # im=Image.open(picPath)
         # im.show()
@@ -78,7 +78,7 @@ opwindows=QWidget()
 pathLab=QLabel(opwindows)
 path=QLineEdit(opwindows)
 if (sys.platform == "darwin"):
-    path.setText('/Users/aria/Documents/PENTAX')
+    path.setText('/Users/user/Documents/PENTAX')
 elif (sys.platform == "win32"):
     path.setText('W:/PENTAX2020')
 choiceButton=QPushButton(opwindows)
@@ -147,7 +147,17 @@ def showMap():   #start map ui
     if(gps):
         arr = sss.buildGPSArry(gps)
         # print(arr)
-        h = hhtml.mapsFrame
+
+        curPath = os.getcwd()
+        if (sys.platform == "darwin"):  #mac OS
+            url_string = "file:///" + curPath + "//maps.html"
+            h = hhtml.mapsFrame
+
+        elif (sys.platform == "win32"):  #Windows
+            url_string = "file:///" + curPath.replace("\\", "/") + "//maps.html"
+            h = hhtml.mapsFrameWin
+
+        
         h = h.replace("var markerArr = [];", arr)
         # print(arr)
         baseloction="var lon={0},lat={1}; ".format(gps[0][1],gps[0][0])
@@ -158,12 +168,7 @@ def showMap():   #start map ui
         else:
             pass
 
-        curPath = os.getcwd()
-        if (sys.platform == "darwin"):  #mac OS
-            url_string = "file:///" + curPath + "//maps.html"
-
-        elif (sys.platform == "win32"):  #Windows
-            url_string = "file:///" + curPath.replace("\\", "/") + "//maps.html"
+        
 
 
         # web.setHtml(h)
@@ -171,6 +176,7 @@ def showMap():   #start map ui
         f = open('maps.html', 'w')
         f.write(h)
         f.close()
+
 
 
         web.load(QUrl(url_string))
